@@ -1,0 +1,29 @@
+# Xcode
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# App bundles
+*.app/
+
+# macOS
+.DS_Store
+
+# Icon files
+*.icns
+*.iconset/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Temporary files
+*.swp
+*.swo
+*~
+notepad.png
+notepad.webp
