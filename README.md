@@ -1,74 +1,75 @@
-# MacNotepadApp
+# Notepad
 
-A native macOS Notepad application built with SwiftUI.
+使用 SwiftUI 构建的原生 macOS 记事本应用。
 
-## Features
+## 功能特性
 
-- Create, open, and save text files
-- Find and replace functionality
-- Undo/redo support
-- Multiple encoding support (UTF-8, UTF-16, ASCII)
-- Status bar showing cursor position and file info
-- Customizable font and editor settings
+- 创建、打开和保存文本文件
+- 查找和替换功能
+- 支持撤销/重做
+- 支持多种编码格式（UTF-8、UTF-16、ASCII）
+- 状态栏显示光标位置和文件信息
+- 可自定义字体和编辑器设置
 
-## Building
+## 构建要求
 
-Requires Xcode 15+ and macOS 13.0+
+需要 Xcode 15+ 和 macOS 13.0+
 
-### Option 1: Xcode (Recommended)
-
-1. Create a new macOS App project in Xcode
-2. Add all source files from MacNotepadApp/MacNotepadApp/
-3. Build and Run (Cmd+R)
-
-### Option 2: Swift Package Manager
+### 方式一：使用构建脚本（推荐）
 
 ```bash
-cd MacNotepadApp
+bash build.sh
+```
+
+构建完成后，会生成 `Notepad.app`，可以直接运行或双击打开。
+
+### 方式二：Swift Package Manager
+
+```bash
 swift build
 swift run
 ```
 
-## Usage
+## 使用说明
 
-- Cmd+N: New document
-- Cmd+O: Open file
-- Cmd+S: Save
-- Cmd+F: Find
-- Cmd+Z: Undo
-- Cmd+Shift+Z: Redo
+- Cmd+N: 新建文档
+- Cmd+O: 打开文件
+- Cmd+S: 保存
+- Cmd+Shift+S: 另存为
+- Cmd+F: 查找
+- Cmd+,: 打开设置
 
-## Project Structure
+## 项目结构
 
 ```
 MacNotepadApp/
-├── MacNotepadApp/           # Main source files
-│   ├── MacNotepadApp.swift  # App entry point
-│   ├── AppDelegate.swift    # Window management
-│   ├── ContentView.swift    # Main view
-│   ├── FindReplacePanel.swift
-│   ├── PreferencesPanel.swift
-│   ├── ViewModels/          # View models
-│   ├── Models/              # Data models
-│   └── Components/          # UI components
-└── MacNotepadAppTests/      # Unit tests
+├── MacNotepadApp/           # 源代码文件
+│   ├── MacNotepadApp.swift  # 应用入口
+│   ├── AppDelegate.swift    # 窗口管理
+│   ├── ContentView.swift    # 主视图
+│   ├── FindReplacePanel.swift      # 查找替换面板
+│   ├── PreferencesPanel.swift      # 设置面板
+│   ├── ViewModels/          # 视图模型
+│   ├── Models/              # 数据模型
+│   └── Components/          # UI 组件
+└── MacNotepadAppTests/      # 单元测试
 ```
 
-## Development Status
+## 开发状态
 
-- [x] Project structure
-- [x] App entry point
-- [x] DocumentManager model
-- [x] EditorViewModel
-- [x] CustomTextEditor component
-- [x] StatusBar component
-- [x] ContentView with toolbar
-- [x] FindReplacePanel
-- [x] PreferencesPanel
-- [x] Tests
-- [x] Build passing
-- [x] All tests passing
+- [x] 项目结构
+- [x] 应用入口
+- [x] 文档管理模型
+- [x] 编辑器视图模型
+- [x] 自定义文本编辑器组件
+- [x] 状态栏组件
+- [x] 主视图
+- [x] 查找替换面板
+- [x] 设置面板
+- [x] 单元测试
+- [x] 构建通过
+- [x] 所有测试通过
 
-## License
+## 许可证
 
 MIT License
