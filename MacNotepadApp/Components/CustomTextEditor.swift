@@ -9,6 +9,7 @@ struct CustomTextEditor: NSViewRepresentable {
     var font: NSFont
     var textColor: NSColor = .black  // 默认黑色，确保可见
     var backgroundColor: NSColor = .white  // 背景颜色
+    var textContainerInset: NSSize = NSSize(width: 8, height: 8)  // 文本边距
     var findQuery: String = ""
     var caseSensitive: Bool = false
 
@@ -24,6 +25,7 @@ struct CustomTextEditor: NSViewRepresentable {
         textView.font = font
         textView.textColor = textColor
         textView.backgroundColor = backgroundColor
+        textView.textContainerInset = textContainerInset
         textView.isEditable = true
         textView.isSelectable = true
         textView.isRichText = false
@@ -65,6 +67,14 @@ struct CustomTextEditor: NSViewRepresentable {
 
         if textView.textColor != textColor {
             textView.textColor = textColor
+        }
+
+        if textView.backgroundColor != backgroundColor {
+            textView.backgroundColor = backgroundColor
+        }
+
+        if textView.textContainerInset != textContainerInset {
+            textView.textContainerInset = textContainerInset
         }
 
         // Highlight find results

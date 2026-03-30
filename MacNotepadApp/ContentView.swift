@@ -3,20 +3,24 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @StateObject private var viewModel = EditorViewModel()
+    @StateObject private var settings = AppSettings.shared
     @State private var showFindReplace = false
     @State private var showPreferences = false
     @State private var showOpenPanel = false
     @State private var showSavePanel = false
-    @State private var fontSize: CGFloat = 13
-    @State private var fontName: String = "Menlo"
-    @State private var textColor: NSColor = .textColor  // 默认文本颜色
-    @State private var tabWidth: Int = 4
-    @State private var lineEnding: PreferencesPanel.LineEnding = .lf
-    @State private var defaultEncoding: String.Encoding = .utf8
+    @State private var selectedTheme: ColorTheme?
     @State private var showUnsavedAlert = false
     @State private var pendingNewDocument = false
     @State private var selectedRange: NSRange = NSRange(location: 0, length: 0)
     @State private var errorMessage: String?
+
+    // 从 settings 加载的主题
+    private var currentTheme: ColorTheme? {
+        if let themeId = settings.selectedThemeId {
+            return ColorTheme.presetThemes.first { $0.id == themeId }
+        }
+        return nil
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,9 +30,10 @@ struct ContentView: View {
                 isModified: $viewModel.documentManager.isModified,
                 cursorPosition: $viewModel.cursorPosition,
                 selectedRange: $selectedRange,
-                font: NSFont(name: fontName, size: fontSize) ?? NSFont.systemFont(ofSize: fontSize),
-                textColor: textColor,
-                backgroundColor: .white,
+                font: NSFont(name: settings.fontName, size: settings.fontSize) ?? NSFont.systemFont(ofSize: settings.fontSize),
+                textColor: settings.textColor,
+                backgroundColor: settings.backgroundColor,
+                textContainerInset: NSSize(width: settings.textMargin, height: settings.textMargin),
                 findQuery: viewModel.findQuery,
                 caseSensitive: viewModel.caseSensitive
             )
@@ -57,12 +62,48 @@ struct ContentView: View {
         .sheet(isPresented: $showPreferences) {
             PreferencesPanel(
                 isPresented: $showPreferences,
-                fontSize: $fontSize,
-                fontName: $fontName,
-                textColor: $textColor,
-                defaultEncoding: $defaultEncoding,
-                tabWidth: $tabWidth,
-                lineEnding: $lineEnding
+                fontSize: Binding(
+                    get: { settings.fontSize },
+                    set: { settings.saveFontSize($0) }
+                ),
+                fontName: Binding(
+                    get: { settings.fontName },
+                    set: { settings.saveFontName($0) }
+                ),
+                textColor: Binding(
+                    get: { settings.textColor },
+                    set: { settings.saveTextColor($0) }
+                ),
+                backgroundColor: Binding(
+                    get: { settings.backgroundColor },
+                    set: { settings.saveBackgroundColor($0) }
+                ),
+                selectedTheme: Binding(
+                    get: { currentTheme },
+                    set: { newTheme in
+                        if let theme = newTheme {
+                            settings.applyTheme(theme)
+                        } else {
+                            settings.saveSelectedThemeId(nil)
+                        }
+                    }
+                ),
+                textMargin: Binding(
+                    get: { settings.textMargin },
+                    set: { settings.saveTextMargin($0) }
+                ),
+                defaultEncoding: Binding(
+                    get: { settings.defaultEncoding },
+                    set: { settings.saveDefaultEncoding($0) }
+                ),
+                tabWidth: Binding(
+                    get: { settings.tabWidth },
+                    set: { settings.saveTabWidth($0) }
+                ),
+                lineEnding: Binding(
+                    get: { PreferencesPanel.LineEnding(rawValue: settings.lineEnding) ?? .lf },
+                    set: { settings.saveLineEnding($0.rawValue) }
+                )
             )
         }
         .fileImporter(
