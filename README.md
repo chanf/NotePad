@@ -2,6 +2,8 @@
 
 使用 SwiftUI 构建的原生 macOS 记事本应用。
 
+![运行界面](screen/screen.png)
+
 ## 功能特性
 
 - 创建、打开和保存文本文件
